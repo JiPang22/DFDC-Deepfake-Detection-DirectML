@@ -1,2 +1,24 @@
 dfdc_data
 processed_faces
+# 가상환경
+.venv/
+venv/
+
+# 데이터 (원본 및 전처리 데이터 제외)
+data/
+train_data_85/
+dfdc_data/
+
+# 모델 가중치 (용량이 크므로 제외)
+models/*.pth
+*.pth
+
+# 결과물 및 임시 파일
+results/*.png
+*.png
+__pycache__/
+.DS_Store
+
+
+*.mp4
+*.jpg
