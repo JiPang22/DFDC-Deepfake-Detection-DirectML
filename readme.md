@@ -1,3 +1,65 @@
+# rPPG-based Deepfake Detection
+
+This project utilizes a dual-branch deep learning model to detect deepfake videos by analyzing both spatial and temporal (frequency) information. The core idea is to leverage remote photoplethysmography (rPPG) signals, which capture subtle color changes in the skin caused by blood flow, as a liveness indicator.
+
+## Key Features
+
+- **Dual-Branch Architecture**:
+  - **Spatial Branch (CNN)**: Analyzes each frame for visual artifacts, compression errors, and unnatural textures.
+  - **Frequency Branch (FFT)**: Extracts the rPPG signal from the video, performs a Fast Fourier Transform (FFT), and analyzes the frequency spectrum for a periodic heartbeat signal.
+- **Focal Loss**: Focuses the training on hard-to-classify examples, improving model accuracy on ambiguous videos.
+- **Advanced Augmentation**: Simulates real-world conditions like poor lighting, low bit-rate, and camera noise to build a robust model.
+- **Automated Pipeline**: Includes scripts for training, evaluation, and visualization, all connected in a seamless workflow.
+
+## Performance
+
+The model achieves an accuracy of **~68%** on the validation set. The performance is balanced across both 'Real' and 'Fake' classes, as shown in the ROC curve and confusion matrix below.
+
+![Performance Report](results/performance_report.png)
+
+## How to Use
+
+### 1. Setup
+
+Clone the repository and install the required dependencies:
+
+```bash
+git clone <repository-url>
+cd Deepfake_project
+pip install -r requirements.txt
+```
+
+### 2. Data Preprocessing
+
+Place your video data (or image sequences) in the `train_data_85/real` and `train_data_85/fake` directories. Then, run the preprocessing script to convert them into `.npy` tensors.
+
+```bash
+python src/preprocess_from_images.py
+```
+
+### 3. Training
+
+Run the training script. The best model will be saved as `src/rppg_best_real.pth`.
+
+```bash
+# For a quick 30-minute run
+python src/train_quick.py
+
+# For a full, in-depth training session
+python src/train_final.py
+```
+
+### 4. Evaluation & Inference
+
+After training, the script will automatically evaluate the model and run a random inference test. You can also run them manually:
+
+```bash
+# Evaluate the best model
+python src/evaluate.py
+
+# Test with a random sample
+python src/inference.py
+```
 # 🛡️ Deepfake Detection with rPPG & Hybrid ViViT
 
 이 프로젝트는 시각적 왜곡뿐만 아니라 생체 신호(rPPG)의 일관성을 분석하여 딥페이크 여부를 판별하는 고성능 AI 모델을 구현합니다. AMD ROCm 환경(RX 6600)에 최적화되어 있습니다.
